@@ -1,0 +1,81 @@
+# Conditions: contain the conditions used on the search
+# Equals      (=)
+# Contains    (~)
+# Starts with (^)
+# Ends with   ($)
+# Regex       (r)
+
+# _case_sensitive: whether the values should be case sensitive or not
+#   True
+#   False
+
+# _type: specify the type of the rule,
+#   whitelist: filter all the rows matches the rule
+#   blacklist: enforce returning the rows, even if it match whitelist rule
+
+rule_SYSTEM:
+  _type: 'whitelist'
+  PID: 
+    condition: '='
+    values: 4
+  Parent PID:
+    condition: '='
+    values: 0
+
+
+
+rule_smss:
+  _type: 'whitelist'
+  Parent PID:
+    condition: '='
+    values: 4
+  Name:
+    condition: '='
+    values: smss.exe
+  Path:
+    condition: '='
+    case_sensitive: False
+    values: C:\Windows\System32\smss.exe
+
+
+rule_svchost:
+  _type: 'whitelist'
+  Name:
+    condition: '='
+    values: svchost.exe
+  Command Line:
+    condition: '^'
+    case_sensitive: False
+    values: C:\windows\System32\svchost.exe -k
+
+
+rule_Fidelis:
+  _type: 'whitelist'
+  Command Line:
+    condition: '~'
+    values: Fidelis
+
+rule_SYSTEM_known_path:
+  _type: 'whitelist'
+  User:
+    condition: '='
+    values: SYSTEM
+  Command Line:
+    condition: '~'
+    values:
+      - Windows\system32\lsass.exe
+      - Windows\CCM\CcmExec.exe
+      - Windows\system32\SearchIndexer.exe /Embedding
+      - Windows\System32\spoolsv.exe
+      - Program Files\Realtek\Audio\HDA\RAVBg64.exe
+      - Windows\system32\conhost.exe
+      - Program Files (x86)\Google\Update\GoogleUpdate.exe
+
+
+rule_test:
+  _type: 'blacklist'
+  Name:
+    condition: '='
+    values:
+      - mimikatz
+
