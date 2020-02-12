@@ -49,12 +49,6 @@ rule_svchost:
     values: C:\windows\System32\svchost.exe -k
 
 
-rule_Fidelis:
-  _type: 'whitelist'
-  Command Line:
-    condition: '~'
-    values: Fidelis
-
 rule_SYSTEM_known_path:
   _type: 'whitelist'
   User:
